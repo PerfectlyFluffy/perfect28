@@ -29,3 +29,4 @@ I would be very happy to fix typos, add new valuable features and fix bugs if yo
 ## Special thanks
 
 - [GoReleaser](https://github.com/goreleaser/goreleaser) for making the releases easier and faster.
+
