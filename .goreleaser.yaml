@@ -55,4 +55,4 @@ aurs:
       install -Dm755 "./perfect28" "${pkgdir}/usr/bin/perfect28"
 
       # license
-      install -Dm644 "./LICENSE.md" "${pkgdir}/usr/share/licenses/perfect28/LICENSE"
+      install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/perfect28/LICENSE"
