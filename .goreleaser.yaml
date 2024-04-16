@@ -41,3 +41,18 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
+
+aurs:
+  - homepage: https://github.com/PerfectlyFluffy/perfect28
+    description: perfect28 is a very simple command line benchmark that uses brute force to find the first 8 perfect numbers.
+    maintainers:
+      - "Dave Boutin <perfectlyfluffy at gmail dot com>"
+    license: MIT
+    private_key: "{{ .Env.AUR_KEY }}"
+    git_url: "ssh://aur@aur.archlinux.org/perfect28-bin.git"
+    package: |-
+      # bin
+      install -Dm755 "./perfect28" "${pkgdir}/usr/bin/perfect28"
+
+      # license
+      install -Dm644 "./LICENSE.md" "${pkgdir}/usr/share/licenses/perfect28/LICENSE"
