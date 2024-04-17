@@ -12,7 +12,7 @@ import (
 var version string = "-DEBUG-BUILD"
 
 func main() {
-	// fmt.Print() // Temporary fix for performance degradation.
+	fmt.Print() // Temporary fix for performance degradation.
 	// Command to check if bug is present: go build && time ./perfect28 --loop=1000000000000
 
 	ctx := context.NewContext(version)
@@ -32,12 +32,12 @@ func main() {
 		timeStarted := time.Now()
 		for _, b := range ctx.Batches {
 			buffer <- b.BatchId
-			go func() {
+			go func(b context.Batch) {
 				defer wg.Done()
 				findPerfectNumbers(b)
 				printCheckpoint(b, timeStarted)
 				<-buffer
-			}()
+			}(b)
 		}
 		wg.Wait()
 
