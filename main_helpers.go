@@ -7,7 +7,7 @@ import (
 	"github.com/PerfectlyFluffy/perfect28/context"
 )
 
-func printCheckpoitZero() {
+func printCheckpointZero() {
 	now := time.Now()
 	fmt.Printf("%s :: %3d%% done in %s\n", now.Format("2006-01-02 15:04:05"), 0, "0s")
 }
