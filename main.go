@@ -15,18 +15,6 @@ func main() {
 	fmt.Print() // Temporary fix for performance degradation.
 	// Command to check if bug is present: go build && time ./perfect28 --loop=1000000000000
 
-	fmt.Print() // => 2024-04-16 21:30:06 ::   5% done in 4.046703732s => bad
-	fmt.Print() // => 2024-04-16 21:30:35 ::   5% done in 3.016144871s => good
-	fmt.Print() // => 2024-04-16 21:31:06 ::   5% done in 4.045381827s => bad
-	fmt.Print() // => 2024-04-16 21:31:38 ::   5% done in 2.99919815s => good
-
-	var w sync.WaitGroup
-	w.Add(1) // => 2024-04-16 21:32:18 ::   5% done in 2.999105851s => good
-	w.Add(1) // => 2024-04-16 21:32:48 ::   5% done in 4.052358235s => bad
-	w.Add(1) // => 2024-04-16 21:33:34 ::   5% done in 2.988433397s => good
-	w.Add(1) // => 2024-04-16 21:33:55 ::   5% done in 3.001821616s => good
-	w.Add(1) // => 2024-04-16 21:34:33 ::   5% done in 4.05221464s => bad
-
 	ctx := context.NewContext(version)
 	runtime.GOMAXPROCS(ctx.ThreadCount)
 	printHeader(ctx)
