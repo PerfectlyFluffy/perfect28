@@ -48,20 +48,46 @@ CUSTOM LOOP:
 --version
     Show version`
 
+// Flag variables
+var _version bool
+var help bool
+var pn8 bool
+var m24 bool
+var s24 bool
+var loop uint64
+var repeat uint64
+var thread uint
+
 func newContextFromFlags(version string) Context {
-	// Getting flag values
-	_version := flag.Bool("version", false, "")
-	help := flag.Bool("help", false, "")
-	pn8 := flag.Bool("pn8", false, "")
-	m24 := flag.Bool("m24", false, "")
-	s24 := flag.Bool("s24", false, "")
-	loop := flag.Uint64("loop", 0, "")
-	repeat := flag.Uint64("repeat", math.MaxUint64, "")
-	thread := flag.Uint("thread", 0, "")
+	// Setting flags
+	if flag.Lookup("version") == nil {
+		flag.BoolVar(&_version, "version", false, "")
+	}
+	if flag.Lookup("help") == nil {
+		flag.BoolVar(&help, "help", false, "")
+	}
+	if flag.Lookup("pn8") == nil {
+		flag.BoolVar(&pn8, "pn8", false, "")
+	}
+	if flag.Lookup("m24") == nil {
+		flag.BoolVar(&m24, "m24", false, "")
+	}
+	if flag.Lookup("s24") == nil {
+		flag.BoolVar(&s24, "s24", false, "")
+	}
+	if flag.Lookup("loop") == nil {
+		flag.Uint64Var(&loop, "loop", 0, "")
+	}
+	if flag.Lookup("repeat") == nil {
+		flag.Uint64Var(&repeat, "repeat", math.MaxUint64, "")
+	}
+	if flag.Lookup("thread") == nil {
+		flag.UintVar(&thread, "thread", 0, "")
+	}
 	flag.Usage = func() {}
 	flag.Parse()
 
-	// Setup context
+	// Setting context
 	ctx := Context{
 		LoopCount:   BENCH_PN8_LOOP,
 		mode:        mode_undefined,
@@ -70,21 +96,21 @@ func newContextFromFlags(version string) Context {
 		version:     version,
 	}
 
-	if *pn8 {
+	if pn8 {
 		ctx.LoopCount = BENCH_PN8_LOOP
 		ctx.mode = mode_pn8
-	} else if *m24 {
+	} else if m24 {
 		ctx.LoopCount = BENCH_M24_LOOP
 		ctx.mode = mode_m24
-	} else if *s24 {
+	} else if s24 {
 		ctx.LoopCount = BENCH_S24_LOOP
 		ctx.mode = mode_s24
 		ctx.ThreadCount = 1
 	}
 
-	if *loop != 0 {
+	if loop != 0 {
 		ctx.mode = mode_custom
-		ctx.LoopCount = *loop
+		ctx.LoopCount = loop
 
 		if ctx.LoopCount < MIN_LOOP_COUNT {
 			ctx.LoopCount = MIN_LOOP_COUNT
@@ -93,22 +119,22 @@ func newContextFromFlags(version string) Context {
 		}
 	}
 
-	if *repeat != math.MaxUint64 {
+	if repeat != math.MaxUint64 {
 		ctx.mode = mode_custom
-		ctx.RepeatCount = *repeat
+		ctx.RepeatCount = repeat
 	}
 
-	if *thread > 0 && int(*thread) < MAX_THREAD_COUNT {
+	if thread > 0 && int(thread) < MAX_THREAD_COUNT {
 		ctx.mode = mode_custom
-		ctx.ThreadCount = int(*thread)
+		ctx.ThreadCount = int(thread)
 	}
 
-	if *_version {
+	if _version {
 		ctx.PrintVersion()
 		os.Exit(0)
 	}
 
-	if ctx.mode == mode_undefined || *help {
+	if ctx.mode == mode_undefined || help {
 		fmt.Println(HELP_MESSAGE)
 		os.Exit(0)
 	}
