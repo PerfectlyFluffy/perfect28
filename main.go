@@ -12,8 +12,7 @@ import (
 var version string = "-DEBUG-BUILD"
 
 func main() {
-	fmt.Print() // Temporary fix for performance degradation.
-	// Command to check if bug is present: go build && time ./perfect28 --loop=1000000000000
+	fmt.Print() // COMMENT/UNCOMMENT TO FIX AMD PERFORMANCE DEGRADATION
 
 	ctx := context.NewContext(version)
 	runtime.GOMAXPROCS(ctx.ThreadCount)
