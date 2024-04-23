@@ -12,7 +12,7 @@ import (
 var version string = "-DEBUG-BUILD"
 
 func main() {
-	fmt.Print() // COMMENT/UNCOMMENT TO FIX AMD PERFORMANCE DEGRADATION
+	// fmt.Print() // COMMENT/UNCOMMENT TO FIX AMD PERFORMANCE DEGRADATION
 
 	ctx := context.NewContext(version)
 	runtime.GOMAXPROCS(ctx.ThreadCount)
@@ -21,9 +21,7 @@ func main() {
 	buffer := make(chan int, ctx.ThreadCount)
 	var wg sync.WaitGroup
 
-	runCount := uint64(0)
-	for {
-		runCount++
+	for runCount := uint64(1); runCount <= ctx.RepeatCount || ctx.RepeatCount == 0; runCount++ {
 		printRepeatHeader(ctx, runCount)
 		printCheckpointZero()
 
@@ -39,10 +37,6 @@ func main() {
 			}(b)
 		}
 		wg.Wait()
-
-		if runCount == ctx.RepeatCount {
-			break
-		}
 	}
 	printDashedLine()
 	close(buffer)
